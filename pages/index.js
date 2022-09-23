@@ -5,16 +5,20 @@ import Switch from '@mui/material/Switch';
 import Layout from '../components/layout/Layout';
 import { Box, Typography } from '@mui/material';
 import TruckForm from '../components/TruckForm';
+import { useSelector } from 'react-redux';
 
 const label = { inputProps: { 'aria-label': 'Switch demo' } };
 export default function Home() {
 	// list truck sizes with prices per hour
+	const { currentUser } = useSelector((state) => state.user);
+	console.log(currentUser);
 	return (
 		<Layout>
 			<Typography variant="h1">Homepage</Typography>
 			<Box>
 				<TruckForm />
 			</Box>
+			{/* Show past rentals for current user if any */}
 		</Layout>
 	);
 }

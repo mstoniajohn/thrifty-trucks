@@ -17,8 +17,13 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import moment from 'moment';
 import dayjs from 'dayjs';
+import { useDispatch, useSelector } from 'react-redux';
+import { newRental } from '../features/rentals/rentalSlice';
 
 const TruckForm = () => {
+	const { currentUser } = useSelector((state) => state.user);
+	const dispatch = useDispatch();
+
 	const [date, setDate] = React.useState(null);
 	const [truck, setTruck] = React.useState('');
 	const [startTime, setStartTime] = React.useState(null);
@@ -52,9 +57,11 @@ const TruckForm = () => {
 			truck,
 			hours: dayjs(endTime).hour() - dayjs(startTime).hour(),
 			rate: calculatRate,
+			user: currentUser ? currentUser.email : 'me',
 		};
 		const calRate = rates[truck] * reservation.hours;
 		console.log(reservation, calRate);
+		dispatch(newRental(reservation));
 		// Maybe submit date and and hours -> then save in redux state for current users
 		// Then show rates on new screen
 

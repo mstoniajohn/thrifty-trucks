@@ -12,11 +12,16 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
+import { useDispatch, useSelector } from 'react-redux';
+import { signInUserWithGoogle } from '../../features/users/userSlice';
+import { useEffect } from 'react';
 
 const pages = ['Trucks', 'Rentals'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const Header = () => {
+	const { currentUser } = useSelector((state) => state.user);
+	const dispatch = useDispatch();
 	const [anchorElNav, setAnchorElNav] = React.useState(null);
 	const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -33,6 +38,10 @@ const Header = () => {
 
 	const handleCloseUserMenu = () => {
 		setAnchorElUser(null);
+	};
+
+	const logIn = () => {
+		dispatch(signInUserWithGoogle());
 	};
 
 	return (
@@ -155,11 +164,25 @@ const Header = () => {
 							open={Boolean(anchorElUser)}
 							onClose={handleCloseUserMenu}
 						>
-							{settings.map((setting) => (
-								<MenuItem key={setting} onClick={handleCloseUserMenu}>
-									<Typography textAlign="center">{setting}</Typography>
+							{/* {settings.map((setting) => ( */}
+
+							<MenuItem onClick={handleCloseUserMenu}>
+								<Typography textAlign="center">Account</Typography>
+							</MenuItem>
+							{/* {currentUser ? (
+								<MenuItem onClick={handleCloseUserMenu}>
+									<Typography textAlign="center">Logout</Typography>
 								</MenuItem>
-							))}
+							) : (
+								<MenuItem onClick={dispatch(signInUserWithGoogle())}>
+									<Typography textAlign="center">Login</Typography>
+								</MenuItem>
+							)} */}
+							<MenuItem onClick={logIn}>
+								<Typography textAlign="center">Login</Typography>
+							</MenuItem>
+
+							{/* ))} */}
 						</Menu>
 					</Box>
 				</Toolbar>
