@@ -20,7 +20,7 @@ const initialState = {
 export const signInUserWithGoogle = createAsyncThunk('user/login', async () => {
 	// catch errors if they occur during login
 	try {
-		const response = signInWithPopup(auth, provider);
+		const response = await signInWithPopup(auth, provider);
 		const cred = GoogleAuthProvider.credentialFromResult(response);
 		const user = response.user;
 		// add user to BE??
@@ -29,7 +29,7 @@ export const signInUserWithGoogle = createAsyncThunk('user/login', async () => {
 		const userObject = {
 			id: user?.uid,
 			email: user?.email,
-			// phone: user?.phone,
+			phone: user?.phone,
 			photo: user?.photoURL,
 			displayName: user?.displayName,
 		};

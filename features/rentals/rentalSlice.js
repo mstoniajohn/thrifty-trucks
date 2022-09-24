@@ -5,6 +5,7 @@ import { auth } from '../../firebase';
 
 const initialState = {
 	currentRental: null,
+	rentals: [],
 	isError: false,
 	isSuccess: false,
 	isLoading: false,

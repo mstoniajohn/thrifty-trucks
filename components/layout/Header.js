@@ -169,7 +169,7 @@ const Header = () => {
 							<MenuItem onClick={handleCloseUserMenu}>
 								<Typography textAlign="center">Account</Typography>
 							</MenuItem>
-							{/* {currentUser ? (
+							{currentUser ? (
 								<MenuItem onClick={handleCloseUserMenu}>
 									<Typography textAlign="center">Logout</Typography>
 								</MenuItem>
@@ -177,12 +177,10 @@ const Header = () => {
 								<MenuItem onClick={dispatch(signInUserWithGoogle())}>
 									<Typography textAlign="center">Login</Typography>
 								</MenuItem>
-							)} */}
+							)}
 							<MenuItem onClick={logIn}>
 								<Typography textAlign="center">Login</Typography>
 							</MenuItem>
-
-							{/* ))} */}
 						</Menu>
 					</Box>
 				</Toolbar>
