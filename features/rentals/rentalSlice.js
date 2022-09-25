@@ -5,7 +5,7 @@ import { auth } from '../../firebase';
 
 const initialState = {
 	currentRental: null,
-	rentals: [],
+	rentals: {},
 	isError: false,
 	isSuccess: false,
 	isLoading: false,
@@ -32,6 +32,7 @@ export const rentalSlice = createSlice({
 			state.isLoading = false;
 			state.isSuccess = true;
 			state.currentRental = action.payload;
+			state.rental;
 		},
 		[newRental.rejected]: (state, action) => {
 			state.isError = true;
