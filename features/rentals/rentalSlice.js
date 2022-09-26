@@ -19,6 +19,14 @@ export const newRental = createAsyncThunk('rentals/add', async (rental) => {
 	return rental;
 });
 
+/*
+{
+	date: '',
+'truck': ',
+slots:'start-end'
+}
+*/
+
 // sign out user and update BE?
 export const rentalSlice = createSlice({
 	name: 'rental',

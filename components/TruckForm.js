@@ -51,7 +51,7 @@ const TruckForm = () => {
 		setTotalHours(endTime - startTime);
 
 		const reservation = {
-			date: moment(date).format('l'),
+			date: moment(date).format('YYYY-MM-DD'),
 			startTime: dayjs(startTime).hour(),
 			endTime: dayjs(endTime).hour(),
 			truck,

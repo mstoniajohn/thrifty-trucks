@@ -8,10 +8,10 @@ import TruckForm from '../components/TruckForm';
 import { useSelector } from 'react-redux';
 
 const label = { inputProps: { 'aria-label': 'Switch demo' } };
-export default function Home({ sizes, trucks }) {
+export default function Home({ reservations, trucks }) {
 	// list truck sizes with prices per hour
 	const { currentUser } = useSelector((state) => state.user);
-	console.log(currentUser, trucks, sizes);
+	console.log(currentUser, trucks, reservations);
 	return (
 		<Layout>
 			<Typography variant="h1">Homepage</Typography>
@@ -27,13 +27,13 @@ export async function getStaticProps() {
 	const res = await fetch('http://127.0.0.1:8000/api/');
 	const trucks = await res.json();
 
-	const ress = await fetch('http://127.0.0.1:8000/api/size/');
-	const sizes = await ress.json();
+	const ress = await fetch('http://127.0.0.1:8000/api/reservations');
+	const reservations = await ress.json();
 
 	return {
 		props: {
 			trucks,
-			sizes,
+			reservations,
 		},
 	};
 }
