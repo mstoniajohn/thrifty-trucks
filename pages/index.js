@@ -11,7 +11,7 @@ const label = { inputProps: { 'aria-label': 'Switch demo' } };
 export default function Home({ reservations, trucks }) {
 	// list truck sizes with prices per hour
 	const { currentUser } = useSelector((state) => state.user);
-	console.log(currentUser, trucks, reservations);
+	console.log(currentUser, reservations, trucks);
 	return (
 		<Layout>
 			<Typography variant="h1">Homepage</Typography>
@@ -24,16 +24,16 @@ export default function Home({ reservations, trucks }) {
 }
 
 export async function getStaticProps() {
-	const res = await fetch('http://127.0.0.1:8000/api/');
-	const trucks = await res.json();
-
-	const ress = await fetch('http://127.0.0.1:8000/api/reservations');
+	const ress = await fetch('http://127.0.0.1:8000/api/v1/reservation');
 	const reservations = await ress.json();
+
+	const res = await fetch('http://127.0.0.1:8000/api/trucks/');
+	const trucks = await res.json();
 
 	return {
 		props: {
-			trucks,
 			reservations,
+			trucks,
 		},
 	};
 }

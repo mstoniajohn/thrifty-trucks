@@ -29,12 +29,10 @@ const TruckForm = () => {
 	const [startTime, setStartTime] = React.useState(null);
 	const [endTime, setEndTime] = React.useState(null);
 	const [totalHours, setTotalHours] = React.useState(0);
-	const [rates] = React.useState({
-		'Compact/Mini': 200,
-		'Mid-size': 250,
-		'Full-size': 300,
-		'Heavy Duty': 400,
-	});
+	const rates = {
+		'Extra Small': 20,
+		Small: 30,
+	};
 	const calculatRate =
 		startTime && endTime
 			? `$${
@@ -48,19 +46,37 @@ const TruckForm = () => {
 
 	const onSubmit = (e) => {
 		e.preventDefault();
-		setTotalHours(endTime - startTime);
+		setTotalHours((endTime - startTime) % 24);
 
 		const reservation = {
 			date: moment(date).format('YYYY-MM-DD'),
-			startTime: dayjs(startTime).hour(),
-			endTime: dayjs(endTime).hour(),
+			start_time: dayjs(startTime).hour(),
+			end_time: dayjs(endTime).hour(),
 			truck,
 			hours: dayjs(endTime).hour() - dayjs(startTime).hour(),
-			rate: calculatRate,
-			user: currentUser ? currentUser.email : 'me',
+			rate: null,
+			email: currentUser ? currentUser.email : 'me',
+			time_end: '09:00',
+			time_start: '11:00',
+			user: currentUser ? currentUser.id : 1,
+			// time_end: dayjs(endTime),
+			// time_start: dayjs(startTime),
 		};
-		const calRate = rates[truck] * reservation.hours;
-		console.log(reservation, calRate);
+		fetch('http://127.0.0.1:8000/api/v1/reservation', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(reservation),
+		})
+			.then((res) => {
+				console.log(res.json());
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+
+		console.log(reservation);
 		dispatch(newRental(reservation));
 		// Maybe submit date and and hours -> then save in redux state for current users
 		// Then show rates on new screen
@@ -84,10 +100,11 @@ const TruckForm = () => {
 						onChange={handleChange}
 						sx={{ mb: 1 }}
 					>
-						<MenuItem value="Compact/Mini">Compact/Mini</MenuItem>
-						<MenuItem value="Mid-size">Mid-size</MenuItem>
-						<MenuItem value="Full-size">Full-size</MenuItem>
-						<MenuItem value="Heavy Duty">Heavy duty</MenuItem>
+						<MenuItem value={1}>Extra Small</MenuItem>
+						<MenuItem value={2}>Small</MenuItem>
+						{/* <MenuItem value="Full-size">Medium</MenuItem>
+						<MenuItem value="Heavy Duty">Large</MenuItem>
+						<MenuItem value="Heavy Duty">Extra Large</MenuItem> */}
 					</Select>
 
 					<LocalizationProvider dateAdapter={AdapterDayjs}>

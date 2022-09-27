@@ -10,6 +10,7 @@ const initialState = {
 	currentUser: null,
 	currentUserInfo: null,
 	isAuthenticated: false,
+	customer: {},
 	isError: false,
 	isSuccess: false,
 	isLoading: false,
@@ -26,13 +27,34 @@ export const signInUserWithGoogle = createAsyncThunk('user/login', async () => {
 		// add user to BE??
 		console.log(user, cred);
 
+		const res = await fetch('http://127.0.0.1:8000/api/v1/customers');
+		const cust = await res.json();
+		console.log(cust);
+		const cust_id = cust.filter((u) => u.email === user?.email);
 		const userObject = {
-			id: user?.uid,
+			id: '',
 			email: user?.email,
 			phone: user?.phone,
 			photo: user?.photoURL,
 			displayName: user?.displayName,
 		};
+		if (cust_id.length === 0) {
+			// create a new customer
+			const res = await fetch('http://127.0.0.1:8000/api/v1/customers', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({
+					email: user?.email,
+					display_name: user?.displayName,
+				}),
+			});
+			const cust = await res.json();
+			userObject['id'] = cust.id;
+		} else {
+			userObject['id'] = cust_id.id;
+		}
 
 		// If i wanna use firebase instead
 		// const addUser = await setDoc(
