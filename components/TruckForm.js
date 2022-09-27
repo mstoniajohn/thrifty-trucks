@@ -19,6 +19,9 @@ import moment from 'moment';
 import dayjs from 'dayjs';
 import { useDispatch, useSelector } from 'react-redux';
 import { newRental } from '../features/rentals/rentalSlice';
+import { API_URL } from '@config/index';
+import { calculateRentalPrice } from 'utils/helpers';
+import { MobileTimePicker } from '@mui/x-date-pickers';
 
 const TruckForm = () => {
 	const { currentUser } = useSelector((state) => state.user);
@@ -33,16 +36,18 @@ const TruckForm = () => {
 		'Extra Small': 20,
 		Small: 30,
 	};
+	const hours = dayjs(endTime).hour() - dayjs(startTime).hour();
+	const hoursCal =
+		(dayjs(endTime).format('hh:mm:ss').split(':')[0] -
+			dayjs(startTime).format('hh:mm:ss').split(':')[0]) %
+		24;
 	const calculatRate =
-		startTime && endTime
-			? `$${
-					rates[truck] * (dayjs(endTime).hour() - dayjs(startTime).hour())
-			  }.00`
-			: `$0.00`;
+		startTime && endTime ? calculateRentalPrice(truck, hours) : `$0.00`;
 
 	const handleChange = (event) => {
 		setTruck(event.target.value);
 	};
+	console.log(dayjs(startTime).format('hh:mm:ss').split(':')[0], hoursCal);
 
 	const onSubmit = (e) => {
 		e.preventDefault();
@@ -56,34 +61,12 @@ const TruckForm = () => {
 			hours: dayjs(endTime).hour() - dayjs(startTime).hour(),
 			rate: null,
 			email: currentUser ? currentUser.email : 'me',
-			time_end: '09:00',
-			time_start: '11:00',
+			time_end: dayjs(endTime).format('hh:mm:ss'),
+			time_start: dayjs(startTime).format('hh:mm:ss'),
 			user: currentUser ? currentUser.id : 1,
-			// time_end: dayjs(endTime),
-			// time_start: dayjs(startTime),
 		};
-		fetch('http://127.0.0.1:8000/api/v1/reservation', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(reservation),
-		})
-			.then((res) => {
-				console.log(res.json());
-			})
-			.catch((err) => {
-				console.log(err);
-			});
 
-		console.log(reservation);
 		dispatch(newRental(reservation));
-		// Maybe submit date and and hours -> then save in redux state for current users
-		// Then show rates on new screen
-
-		//  Allow for changeing hours and date and teuck to calculate rates befor moving forward
-		// load spinner for moving forward
-		// After submit move to next screen for rates
 	};
 
 	return (
@@ -91,7 +74,7 @@ const TruckForm = () => {
 			<Box sx={{ maxWidth: 410 }} component="form" onSubmit={onSubmit}>
 				{/* Add form mid width */}
 				<FormControl fullWidth>
-					<InputLabel id="demo-simple-select-label">Trucks</InputLabel>
+					<InputLabel id="demo-simple-select-label">Truck Type</InputLabel>
 					<Select
 						labelId="demo-simple-select-label"
 						id="demo-simple-select"
@@ -101,10 +84,10 @@ const TruckForm = () => {
 						sx={{ mb: 1 }}
 					>
 						<MenuItem value={1}>Extra Small</MenuItem>
-						<MenuItem value={2}>Small</MenuItem>
-						{/* <MenuItem value="Full-size">Medium</MenuItem>
-						<MenuItem value="Heavy Duty">Large</MenuItem>
-						<MenuItem value="Heavy Duty">Extra Large</MenuItem> */}
+						{/* <MenuItem value={2}>Small</MenuItem> */}
+						{/* <MenuItem value={3}>Medium</MenuItem>
+						<MenuItem value={4}>Large</MenuItem>
+						<MenuItem value={5}>Extra Large</MenuItem> */}
 					</Select>
 
 					<LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -118,20 +101,29 @@ const TruckForm = () => {
 						/>
 						<Grid container spacing={1}>
 							<Grid item xs={6}>
-								<TimePicker
+								<MobileTimePicker
 									label="StartTime"
 									value={startTime}
-									views={['hours']}
 									onChange={(newValue) => {
 										setStartTime(newValue);
 									}}
-									renderInput={(params) => (
-										<TextField {...params} sx={{ maxWidth: 200 }} />
-									)}
+									views={['hours']}
+									renderInput={(params) => <TextField {...params} />}
 								/>
 							</Grid>
 							<Grid item xs={6}>
-								<TimePicker
+								<MobileTimePicker
+									label="End Time"
+									// value={value}value={endTime}
+									minTime={startTime?.add(1, 'hour')}
+									onChange={(newValue) => {
+										setEndTime(newValue);
+									}}
+									views={['hours']}
+									renderInput={(params) => <TextField {...params} />}
+									disabled={startTime === null}
+								/>
+								{/* <TimePicker
 									label="End Time"
 									value={endTime}
 									onChange={(newValue) => {
@@ -142,7 +134,8 @@ const TruckForm = () => {
 									renderInput={(params) => (
 										<TextField {...params} sx={{ maxWidth: 200 }} />
 									)}
-								/>
+									disabled={startTime === null}
+								/> */}
 							</Grid>
 						</Grid>
 					</LocalizationProvider>

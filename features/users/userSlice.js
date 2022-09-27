@@ -2,6 +2,7 @@ import { GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth';
 
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { auth } from '../../firebase';
+import { API_URL } from '@config/index';
 
 const provider = new GoogleAuthProvider();
 // provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
@@ -25,11 +26,9 @@ export const signInUserWithGoogle = createAsyncThunk('user/login', async () => {
 		const cred = GoogleAuthProvider.credentialFromResult(response);
 		const user = response.user;
 		// add user to BE??
-		console.log(user, cred);
 
-		const res = await fetch('http://127.0.0.1:8000/api/v1/customers');
+		const res = await fetch(`${API_URL}/api/v1/customers`);
 		const cust = await res.json();
-		console.log(cust);
 		const cust_id = cust.filter((u) => u.email === user?.email);
 		const userObject = {
 			id: '',
@@ -40,7 +39,7 @@ export const signInUserWithGoogle = createAsyncThunk('user/login', async () => {
 		};
 		if (cust_id.length === 0) {
 			// create a new customer
-			const res = await fetch('http://127.0.0.1:8000/api/v1/customers', {
+			const res = await fetch(`${API_URL}/api/v1/customers`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
@@ -56,17 +55,6 @@ export const signInUserWithGoogle = createAsyncThunk('user/login', async () => {
 			userObject['id'] = cust_id.id;
 		}
 
-		// If i wanna use firebase instead
-		// const addUser = await setDoc(
-		// 	doc(db, 'users', user?.uid),
-		// 	{
-		// 		name: user?.displayName,
-		// 		email: user?.email,
-		// 		photo: user.photoURL,
-		// 		id: user.uid,
-		// 	},
-		// 	{ merge: true }
-		// );
 		return userObject;
 	} catch (error) {
 		const errorCode = error.code;
