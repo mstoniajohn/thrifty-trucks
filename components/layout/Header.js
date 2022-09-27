@@ -151,7 +151,14 @@ const Header = () => {
 					<Box sx={{ flexGrow: 0 }}>
 						<Tooltip title="Open settings">
 							<IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-								<Avatar alt="Remy Sharp" src="/blank-profile640.png" />
+								<Avatar
+									alt="Remy Sharp"
+									src={
+										currentUser
+											? currentUser.photo.replace('http://', '')
+											: '/blank-profile640.png'
+									}
+								/>
 							</IconButton>
 						</Tooltip>
 						<Menu
