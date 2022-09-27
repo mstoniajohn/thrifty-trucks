@@ -28,37 +28,28 @@ const TruckForm = () => {
 	const dispatch = useDispatch();
 
 	const [date, setDate] = React.useState(null);
-	const [truck, setTruck] = React.useState('');
+	const [truck, setTruck] = React.useState(null);
 	const [startTime, setStartTime] = React.useState(null);
 	const [endTime, setEndTime] = React.useState(null);
 	const [totalHours, setTotalHours] = React.useState(0);
-	const rates = {
-		'Extra Small': 20,
-		Small: 30,
-	};
 	const hours = dayjs(endTime).hour() - dayjs(startTime).hour();
-	const hoursCal =
-		(dayjs(endTime).format('hh:mm:ss').split(':')[0] -
-			dayjs(startTime).format('hh:mm:ss').split(':')[0]) %
-		24;
-	const calculatRate =
-		startTime && endTime ? calculateRentalPrice(truck, hours) : `$0.00`;
 
 	const handleChange = (event) => {
 		setTruck(event.target.value);
 	};
-	console.log(dayjs(startTime).format('hh:mm:ss').split(':')[0], hoursCal);
+	const calculateRate = calculateRentalPrice(truck, startTime, endTime);
 
 	const onSubmit = (e) => {
 		e.preventDefault();
 		setTotalHours((endTime - startTime) % 24);
 
+		console.log(totalHours);
 		const reservation = {
 			date: moment(date).format('YYYY-MM-DD'),
 			start_time: dayjs(startTime).hour(),
 			end_time: dayjs(endTime).hour(),
 			truck,
-			hours: dayjs(endTime).hour() - dayjs(startTime).hour(),
+			hours: hours % 24,
 			rate: null,
 			email: currentUser ? currentUser.email : 'me',
 			time_end: dayjs(endTime).format('hh:mm:ss'),
@@ -84,14 +75,15 @@ const TruckForm = () => {
 						sx={{ mb: 1 }}
 					>
 						<MenuItem value={1}>Extra Small</MenuItem>
-						{/* <MenuItem value={2}>Small</MenuItem> */}
-						{/* <MenuItem value={3}>Medium</MenuItem>
+						<MenuItem value={2}>Small</MenuItem>
+						<MenuItem value={3}>Medium</MenuItem>
 						<MenuItem value={4}>Large</MenuItem>
-						<MenuItem value={5}>Extra Large</MenuItem> */}
+						<MenuItem value={5}>Extra Large</MenuItem>
 					</Select>
 
 					<LocalizationProvider dateAdapter={AdapterDayjs}>
 						<DatePicker
+							disablePast
 							label="Date"
 							value={date}
 							onChange={(newValue) => {
@@ -102,7 +94,8 @@ const TruckForm = () => {
 						<Grid container spacing={1}>
 							<Grid item xs={6}>
 								<MobileTimePicker
-									label="StartTime"
+									label="Start Time"
+									ampm
 									value={startTime}
 									onChange={(newValue) => {
 										setStartTime(newValue);
@@ -114,7 +107,8 @@ const TruckForm = () => {
 							<Grid item xs={6}>
 								<MobileTimePicker
 									label="End Time"
-									// value={value}value={endTime}
+									ampm
+									value={endTime}
 									minTime={startTime?.add(1, 'hour')}
 									onChange={(newValue) => {
 										setEndTime(newValue);
@@ -123,26 +117,13 @@ const TruckForm = () => {
 									renderInput={(params) => <TextField {...params} />}
 									disabled={startTime === null}
 								/>
-								{/* <TimePicker
-									label="End Time"
-									value={endTime}
-									onChange={(newValue) => {
-										setEndTime(newValue);
-									}}
-									minTime={startTime ? startTime.add(1, 'hour') : 0}
-									views={['hours']}
-									renderInput={(params) => (
-										<TextField {...params} sx={{ maxWidth: 200 }} />
-									)}
-									disabled={startTime === null}
-								/> */}
 							</Grid>
 						</Grid>
 					</LocalizationProvider>
 				</FormControl>
 				<Typography>
 					Current Rate:{' '}
-					{truck !== '' ? calculatRate : 'Select truck size or time'}
+					{truck !== null ? calculateRate : 'Select truck size or time'}
 				</Typography>
 				<Button type="submit">Submit</Button>
 			</Box>
