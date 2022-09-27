@@ -13,7 +13,10 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { useDispatch, useSelector } from 'react-redux';
-import { signInUserWithGoogle } from '../../features/users/userSlice';
+import {
+	signInUserWithGoogle,
+	signOutUser,
+} from '../../features/users/userSlice';
 import { useEffect } from 'react';
 
 const pages = ['Trucks', 'Rentals'];
@@ -42,6 +45,9 @@ const Header = () => {
 
 	const logIn = () => {
 		dispatch(signInUserWithGoogle());
+	};
+	const logOut = () => {
+		dispatch(signOutUser());
 	};
 
 	return (
@@ -169,18 +175,18 @@ const Header = () => {
 							<MenuItem onClick={handleCloseUserMenu}>
 								<Typography textAlign="center">Account</Typography>
 							</MenuItem>
-							{currentUser ? (
-								<MenuItem onClick={handleCloseUserMenu}>
+							{currentUser !== null ? (
+								<MenuItem onClick={logOut}>
 									<Typography textAlign="center">Logout</Typography>
 								</MenuItem>
 							) : (
-								<MenuItem onClick={dispatch(signInUserWithGoogle())}>
+								<MenuItem onClick={logIn}>
 									<Typography textAlign="center">Login</Typography>
 								</MenuItem>
 							)}
-							<MenuItem onClick={logIn}>
+							{/* <MenuItem onClick={logIn}>
 								<Typography textAlign="center">Login</Typography>
-							</MenuItem>
+							</MenuItem> */}
 						</Menu>
 					</Box>
 				</Toolbar>

@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { API_URL } from '@config/index';
 import { useEffect } from 'react';
 import { fetchUsersRentals } from '@features/rentals/rentalSlice';
+import { useRouter } from 'next/router';
 
 const label = { inputProps: { 'aria-label': 'Switch demo' } };
 export default function Home({ reservations, trucks }) {
@@ -17,6 +18,10 @@ export default function Home({ reservations, trucks }) {
 	const { userRentals, currentRental } = useSelector((state) => state.rental);
 
 	const dispatch = useDispatch();
+	const router = useRouter();
+	if (currentUser === null) {
+		router.push('/login');
+	}
 
 	useEffect(() => {
 		dispatch(fetchUsersRentals(currentUser?.email));
