@@ -15,11 +15,13 @@ npm run dev
 yarn dev
 ```
 
-Download the BE app from here [from here](https://github.com/mstoniajohn/thrifty-trucks-backend) and run
+Download the BE app from here [from here](https://github.com/mstoniajohn/thrifty-trucks-backend) and then run the following command(In the BE ONLY)
 
 ```bash
-pip install requirements.txt
+pip install -r requirements.txt
 ```
+
+### ENV variables are not hidden on purpose
 
 I have usuall save secrets in a `env.local` but for this demo I did not.
 
