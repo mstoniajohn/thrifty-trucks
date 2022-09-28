@@ -2,8 +2,9 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Thrifty Trucks Project
 
-[Live Frontend app](https://thrifty-trucks-chariot.vercel.app)
-[Live Backend API app](https://thrifty-trucks.herokuapp.com)
+#### [Live Frontend app](https://thrifty-trucks-chariot.vercel.app)
+
+#### [Live Backend API app](https://thrifty-trucks.herokuapp.com)
 
 ### Run Backend and Frontend apps
 
