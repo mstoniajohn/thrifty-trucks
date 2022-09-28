@@ -16,5 +16,8 @@ export const theme = createTheme({
 		caption: {
 			color: '#A39A9A',
 		},
+		h5: {
+			color: '#A39A9A',
+		},
 	},
 });
