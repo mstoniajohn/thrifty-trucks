@@ -31,7 +31,7 @@ export const newRental = createAsyncThunk(
 			const data = await res.json();
 			return data;
 		} catch (error) {
-			console.error(error);
+			return { error: error.message };
 		}
 	}
 );
@@ -79,6 +79,7 @@ export const rentalSlice = createSlice({
 		[newRental.rejected]: (state, action) => {
 			state.isError = true;
 			state.message = action.payload;
+			state.currentRental = null;
 		},
 		[fetchUsersRentals.pending]: (state, action) => {
 			state.isLoading = true;

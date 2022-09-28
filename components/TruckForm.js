@@ -1,15 +1,19 @@
 import * as React from 'react';
 import {
+	Alert,
 	Box,
 	Button,
+	Collapse,
 	Container,
 	FormControl,
 	Grid,
+	IconButton,
 	InputLabel,
 	MenuItem,
 	Select,
 	Typography,
 } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 import TextField from '@mui/material/TextField';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -20,19 +24,30 @@ import dayjs from 'dayjs';
 import { useDispatch, useSelector } from 'react-redux';
 import { newRental } from '../features/rentals/rentalSlice';
 import { API_URL } from '@config/index';
-import { calculateRentalPrice } from 'utils/helpers';
+import { calculateRentalPrice, getTruckSize } from 'utils/helpers';
 import { MobileTimePicker } from '@mui/x-date-pickers';
 
 const TruckForm = () => {
 	const { currentUser } = useSelector((state) => state.user);
+	const { currentRental } = useSelector((state) => state.rental);
+
 	const dispatch = useDispatch();
 
-	const [date, setDate] = React.useState(null);
-	const [truck, setTruck] = React.useState(null);
-	const [startTime, setStartTime] = React.useState(null);
-	const [endTime, setEndTime] = React.useState(null);
-	const [totalHours, setTotalHours] = React.useState(0);
-	const hours = dayjs(endTime).hour() - dayjs(startTime).hour();
+	const [date, setDate] = React.useState(dayjs());
+	const [truck, setTruck] = React.useState(1);
+	const [startTime, setStartTime] = React.useState(dayjs().format('H'));
+	const [endTime, setEndTime] = React.useState('');
+	const [openSuccess, setOpenSuccess] = React.useState(false);
+	const [openError, setOpenError] = React.useState(false);
+
+	console.log(
+		dayjs().format('H'),
+		endTime,
+		startTime,
+		dayjs(startTime).format('H'),
+		dayjs(endTime).format('H'),
+		currentRental?.error
+	);
 
 	const handleChange = (event) => {
 		setTruck(event.target.value);
@@ -41,15 +56,15 @@ const TruckForm = () => {
 
 	const onSubmit = (e) => {
 		e.preventDefault();
-		setTotalHours((endTime - startTime) % 24);
+		// setTotalHours((endTime - startTime) % 24);
+		// truck_size: getTruckSize[truck],
 
-		console.log(totalHours);
 		const reservation = {
-			date: moment(date).format('YYYY-MM-DD'),
-			start_time: dayjs(startTime).hour(),
-			end_time: dayjs(endTime).hour(),
+			date: dayjs(date).format('YYYY-MM-DD'),
+			start_time: dayjs(startTime).format('H'),
+			end_time: dayjs(endTime).format('H'),
 			truck,
-			hours: hours % 24,
+			hours: null,
 			rate: null,
 			email: currentUser ? currentUser.email : 'me',
 			time_end: dayjs(endTime).format('hh:mm:ss'),
@@ -58,12 +73,59 @@ const TruckForm = () => {
 		};
 
 		dispatch(newRental(reservation));
+		if (!currentRental?.error) {
+			setOpenSuccess(true);
+		}
+		if (currentRental?.error) {
+			setOpenError(true);
+		}
 	};
 
 	return (
 		<Container>
 			<Box sx={{ maxWidth: 410 }} component="form" onSubmit={onSubmit}>
-				{/* Add form mid width */}
+				{currentRental?.error && (
+					<Collapse in={openError}>
+						<Alert
+							severity="error"
+							sx={{ m: 2 }}
+							action={
+								<IconButton
+									aria-label="close"
+									color="inherit"
+									size="small"
+									onClick={() => {
+										setOpenError(false);
+									}}
+								>
+									<CloseIcon fontSize="inherit" />
+								</IconButton>
+							}
+						>
+							No availabiliy. Choose a different Truck, Time or Date
+						</Alert>
+					</Collapse>
+				)}
+				<Collapse in={openSuccess}>
+					<Alert
+						severity="success"
+						sx={{ m: 2 }}
+						action={
+							<IconButton
+								aria-label="close"
+								color="inherit"
+								size="small"
+								onClick={() => {
+									setOpenSuccess(false);
+								}}
+							>
+								<CloseIcon fontSize="inherit" />
+							</IconButton>
+						}
+					>
+						Thank you for booking with Thrifty Trucks
+					</Alert>
+				</Collapse>
 				<FormControl fullWidth>
 					<InputLabel id="demo-simple-select-label">Truck Type</InputLabel>
 					<Select
@@ -109,7 +171,7 @@ const TruckForm = () => {
 									label="End Time"
 									ampm
 									value={endTime}
-									minTime={startTime?.add(1, 'hour')}
+									minTime={startTime}
 									onChange={(newValue) => {
 										setEndTime(newValue);
 									}}
@@ -125,6 +187,7 @@ const TruckForm = () => {
 					Current Rate:{' '}
 					{truck !== null ? calculateRate : 'Select truck size or time'}
 				</Typography>
+
 				<Button type="submit">Submit</Button>
 			</Box>
 		</Container>

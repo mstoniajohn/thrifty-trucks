@@ -10,6 +10,7 @@ import { API_URL } from '@config/index';
 import { useEffect } from 'react';
 import { fetchUsersRentals } from '@features/rentals/rentalSlice';
 import { useRouter } from 'next/router';
+import moment from 'moment';
 
 const label = { inputProps: { 'aria-label': 'Switch demo' } };
 export default function Home({ reservations, trucks }) {
@@ -40,7 +41,7 @@ export default function Home({ reservations, trucks }) {
 					{/* get rentals for current user */}
 					{userRentals?.map(({ id, date, truck, rate }) => (
 						<Box key={id}>
-							<Typography>{date}</Typography>
+							<Typography>{moment(date).format('l')}</Typography>
 							<Typography>{truck}</Typography>
 						</Box>
 					))}

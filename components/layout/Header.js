@@ -19,8 +19,7 @@ import {
 } from '../../features/users/userSlice';
 import { useEffect } from 'react';
 
-const pages = ['Trucks', 'Rentals'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const pages = ['Trucks'];
 
 const Header = () => {
 	const { currentUser } = useSelector((state) => state.user);
