@@ -35,7 +35,9 @@ const TruckForm = () => {
 
 	const [date, setDate] = React.useState(dayjs());
 	const [truck, setTruck] = React.useState(1);
-	const [startTime, setStartTime] = React.useState(dayjs().format('H'));
+	const [startTime, setStartTime] = React.useState(
+		dayjs().hour(dayjs().format('H'))
+	);
 	const [endTime, setEndTime] = React.useState('');
 	const [openSuccess, setOpenSuccess] = React.useState(false);
 	const [openError, setOpenError] = React.useState(false);
@@ -177,7 +179,7 @@ const TruckForm = () => {
 									}}
 									views={['hours']}
 									renderInput={(params) => <TextField {...params} />}
-									disabled={startTime === dayjs().format('H')}
+									disabled={startTime === dayjs().hour(dayjs().format('H'))}
 								/>
 							</Grid>
 						</Grid>

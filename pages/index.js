@@ -39,12 +39,7 @@ export default function Home() {
 					<Typography variant="h5" align="center">
 						Book a Truck
 					</Typography>
-					{/* 
-          add prices to name of trucks per hour
-          filter trucks by size,
-          change or delete reservation
 
-           */}
 					<Box>
 						<TruckForm />
 					</Box>
@@ -133,8 +128,6 @@ export default function Home() {
 					)}
 				</Grid>
 			</Grid>
-
-			{/* Show past rentals for current user if any */}
 		</Layout>
 	);
 }

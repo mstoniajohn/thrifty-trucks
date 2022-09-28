@@ -42,11 +42,11 @@ export default function UpdateForm({
 	const dispatch = useDispatch();
 	const [oldDate, setOldDate] = React.useState(date);
 	const [newTruck, setNewTruck] = React.useState(truck);
-	const [startTime, setStartTime] = React.useState(dayjs(start_time));
-	const [endTime, setEndTime] = React.useState(dayjs(end_time));
+	const [startTime, setStartTime] = React.useState(dayjs().hour(start_time));
+	const [endTime, setEndTime] = React.useState(dayjs().hour(end_time));
 
 	const [open, setOpen] = React.useState(false);
-
+	console.log(time_start, time_end, start_time, end_time);
 	const handleClickOpen = () => {
 		setOpen(true);
 	};
@@ -93,10 +93,6 @@ export default function UpdateForm({
 			<Dialog open={open} onClose={handleClose}>
 				<DialogTitle>Update </DialogTitle>
 				<DialogContent>
-					<DialogContentText>
-						To subscribe to this website, please enter your email address here.
-						We will send updates occasionally.
-					</DialogContentText>
 					<Box component="form" onSubmit={onSubmit}>
 						<FormControl fullWidth color="primary">
 							<InputLabel id="demo-simple-select-label">Truck Type</InputLabel>
@@ -155,12 +151,15 @@ export default function UpdateForm({
 								</Grid>
 							</LocalizationProvider>
 						</FormControl>
-						<Button type="submit">Submit</Button>
+
+						<DialogActions>
+							<Button type="submit">Submit</Button>
+						</DialogActions>
+						<DialogActions>
+							<Button onClick={handleClose}>Cancel</Button>
+						</DialogActions>
 					</Box>
 				</DialogContent>
-				<DialogActions>
-					<Button onClick={handleClose}>Cancel</Button>
-				</DialogActions>
 			</Dialog>
 		</div>
 	);
