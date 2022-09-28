@@ -46,7 +46,9 @@ export default function Home() {
 				<Grid item xs={12} md={6}>
 					{/* get rentals for current user */}
 					<Typography variant="h5" align="center">
-						{!userRentals?.length ? 'No Rentals Yet' : 'Upcoming Truck Rentals'}
+						{userRentals?.length === 0
+							? 'No Rentals Yet'
+							: 'Upcoming Truck Rentals'}
 					</Typography>
 					{userRentals?.map(
 						({ id, date, truck, rate, time_end, time_start }) => (

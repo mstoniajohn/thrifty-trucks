@@ -126,7 +126,7 @@ const TruckForm = () => {
 						Thank you for booking with Thrifty Trucks
 					</Alert>
 				</Collapse>
-				<FormControl fullWidth>
+				<FormControl fullWidth color="primary">
 					<InputLabel id="demo-simple-select-label">Truck Type</InputLabel>
 					<Select
 						labelId="demo-simple-select-label"
