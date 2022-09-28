@@ -1,19 +1,23 @@
-import Image from 'next/image';
-import styles from '../styles/Home.module.css';
-
-import Switch from '@mui/material/Switch';
 import Layout from '../components/layout/Layout';
-import { Box, Grid, Typography } from '@mui/material';
+import {
+	Box,
+	Card,
+	CardContent,
+	CardMedia,
+	Grid,
+	Typography,
+} from '@mui/material';
 import TruckForm from '../components/TruckForm';
 import { useDispatch, useSelector } from 'react-redux';
-import { API_URL } from '@config/index';
 import { useEffect } from 'react';
 import { fetchUsersRentals } from '@features/rentals/rentalSlice';
 import { useRouter } from 'next/router';
 import moment from 'moment';
+import { getTruckImage, getTruckSize } from 'utils/helpers';
+import dayjs from 'dayjs';
 
 const label = { inputProps: { 'aria-label': 'Switch demo' } };
-export default function Home({ reservations, trucks }) {
+export default function Home() {
 	// list truck sizes with prices per hour
 	const { currentUser } = useSelector((state) => state.user);
 	const { userRentals, currentRental } = useSelector((state) => state.rental);
@@ -30,7 +34,7 @@ export default function Home({ reservations, trucks }) {
 
 	return (
 		<Layout>
-			<Grid container spacing={4} sx={{ padding: 1 }}>
+			<Grid container spacing={4} sx={{ padding: 1, mt: 2 }}>
 				<Grid item xs={12} md={6}>
 					<Typography variant="h6">Homepage</Typography>
 					<Box>
@@ -39,12 +43,64 @@ export default function Home({ reservations, trucks }) {
 				</Grid>
 				<Grid item xs={12} md={6}>
 					{/* get rentals for current user */}
-					{userRentals?.map(({ id, date, truck, rate }) => (
-						<Box key={id}>
-							<Typography>{moment(date).format('l')}</Typography>
-							<Typography>{truck}</Typography>
-						</Box>
-					))}
+					<Typography variant="h5" align="center">
+						Upcoming Truck Rentals
+					</Typography>
+					{userRentals?.map(
+						({ id, date, truck, rate, time_end, time_start }) => (
+							<Box key={id}>
+								<Card sx={{ display: 'flex', mb: 1 }}>
+									<Box sx={{ display: 'flex', flexDirection: 'column' }}>
+										<CardContent sx={{ flex: '1 0 auto' }}>
+											<Typography component="div" variant="h6">
+												{getTruckSize(truck)}
+											</Typography>
+											<Typography
+												variant="caption"
+												color="text.secondary"
+												component="div"
+											>
+												when: {dayjs(date).format('dddd, MMM D')}
+											</Typography>
+											<Typography
+												variant="caption"
+												color="text.secondary"
+												component="div"
+											>
+												at: {time_start} - {time_end}
+											</Typography>
+											<Typography
+												variant="caption"
+												color="text.secondary"
+												component="div"
+											>
+												cost: ${rate}
+											</Typography>
+										</CardContent>
+										<Box
+											sx={{
+												display: 'flex',
+												alignItems: 'center',
+												pl: 1,
+												pb: 1,
+											}}
+										></Box>
+									</Box>
+									<CardMedia
+										component="img"
+										sx={{
+											width: '100%',
+											maxWidth: '100px',
+											height: 'auto',
+											alignSelf: 'center',
+										}}
+										image={getTruckImage(truck)}
+										alt="Live from space album cover"
+									/>
+								</Card>
+							</Box>
+						)
+					)}
 				</Grid>
 			</Grid>
 
