@@ -113,7 +113,7 @@ export default function UpdateForm({
 				onClose={handleCloseConfirm}
 				aria-describedby="alert-dialog-slide-description"
 			>
-				<DialogTitle>{"Use Google's location service?"}</DialogTitle>
+				<DialogTitle>{'Delete this Booking?'}</DialogTitle>
 				<DialogContent>
 					<DialogContentText id="alert-dialog-slide-description">
 						Are you sure you want to cancel this booking?
