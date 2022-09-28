@@ -182,6 +182,7 @@ const TruckForm = () => {
 				</FormControl>
 
 				<Button
+					disabled={endTime === ''}
 					variant="contained"
 					type="submit"
 					sx={{ mt: 1, color: 'white' }}
