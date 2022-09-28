@@ -36,7 +36,9 @@ export default function Home() {
 		<Layout>
 			<Grid container spacing={4} sx={{ padding: 1, mt: 2 }}>
 				<Grid item xs={12} md={6}>
-					<Typography variant="h6">Homepage</Typography>
+					<Typography variant="h5" align="center">
+						Book a Truck
+					</Typography>
 					<Box>
 						<TruckForm />
 					</Box>
@@ -44,7 +46,7 @@ export default function Home() {
 				<Grid item xs={12} md={6}>
 					{/* get rentals for current user */}
 					<Typography variant="h5" align="center">
-						Upcoming Truck Rentals
+						{!userRentals?.length ? 'No Rentals Yet' : 'Upcoming Truck Rentals'}
 					</Typography>
 					{userRentals?.map(
 						({ id, date, truck, rate, time_end, time_start }) => (
@@ -90,7 +92,7 @@ export default function Home() {
 										component="img"
 										sx={{
 											width: '100%',
-											maxWidth: '100px',
+											maxWidth: '120px',
 											height: 'auto',
 											alignSelf: 'center',
 										}}
@@ -108,10 +110,3 @@ export default function Home() {
 		</Layout>
 	);
 }
-
-// export async function getStaticProps() {
-// 	const rentals =
-// 	return {
-// 		props: { rentals },
-// 	};
-// }

@@ -17,9 +17,9 @@ import {
 	signInUserWithGoogle,
 	signOutUser,
 } from '../../features/users/userSlice';
-import { useEffect } from 'react';
+import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 
-const pages = ['Trucks'];
+const pages = [''];
 
 const Header = () => {
 	const { currentUser } = useSelector((state) => state.user);
@@ -61,7 +61,9 @@ const Header = () => {
 		>
 			<Container maxWidth="xl">
 				<Toolbar disableGutters>
-					<AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+					<LocalShippingIcon
+						sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }}
+					/>
 					<Typography
 						variant="h6"
 						noWrap
@@ -91,39 +93,15 @@ const Header = () => {
 						>
 							<MenuIcon />
 						</IconButton>
-						<Menu
-							id="menu-appbar"
-							anchorEl={anchorElNav}
-							anchorOrigin={{
-								vertical: 'bottom',
-								horizontal: 'left',
-							}}
-							keepMounted
-							transformOrigin={{
-								vertical: 'top',
-								horizontal: 'left',
-							}}
-							open={Boolean(anchorElNav)}
-							onClose={handleCloseNavMenu}
-							sx={{
-								display: { xs: 'block', md: 'none' },
-							}}
-						>
-							{pages.map((page) => (
-								<MenuItem key={page} onClick={handleCloseNavMenu}>
-									<Typography textAlign="center">{page}</Typography>
-								</MenuItem>
-							))}
-						</Menu>
 					</Box>
-					<AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+
 					<Typography
-						variant="h5"
+						variant="body1"
 						noWrap
 						component="a"
 						href=""
 						sx={{
-							mr: 2,
+							mr: 1,
 							display: { xs: 'flex', md: 'none' },
 							flexGrow: 1,
 							fontFamily: 'monospace',
@@ -133,8 +111,12 @@ const Header = () => {
 							textDecoration: 'none',
 						}}
 					>
-						LOGO
+						Thrifty
+						<LocalShippingIcon
+							sx={{ display: { xs: 'flex', md: 'none' }, mr: 2 }}
+						/>
 					</Typography>
+
 					<Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
 						{pages.map((page) => (
 							<Button
@@ -176,11 +158,6 @@ const Header = () => {
 							open={Boolean(anchorElUser)}
 							onClose={handleCloseUserMenu}
 						>
-							{/* {settings.map((setting) => ( */}
-
-							<MenuItem onClick={handleCloseUserMenu}>
-								<Typography textAlign="center">Account</Typography>
-							</MenuItem>
 							{currentUser !== null ? (
 								<MenuItem onClick={logOut}>
 									<Typography textAlign="center">Logout</Typography>
@@ -190,9 +167,6 @@ const Header = () => {
 									<Typography textAlign="center">Login</Typography>
 								</MenuItem>
 							)}
-							{/* <MenuItem onClick={logIn}>
-								<Typography textAlign="center">Login</Typography>
-							</MenuItem> */}
 						</Menu>
 					</Box>
 				</Toolbar>

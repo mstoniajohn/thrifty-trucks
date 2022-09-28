@@ -183,13 +183,13 @@ const TruckForm = () => {
 						</Grid>
 					</LocalizationProvider>
 				</FormControl>
-				<Typography>
-					Current Rate:{' '}
-					{truck !== null ? calculateRate : 'Select truck size or time'}
-				</Typography>
 
 				<Button type="submit">Submit</Button>
 			</Box>
+			{/* <Typography>
+				Current Rate:{' '}
+				{truck !== null ? calculateRate : 'Select truck size or time'}
+			</Typography> */}
 		</Container>
 	);
 };
