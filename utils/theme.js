@@ -13,5 +13,8 @@ export const theme = createTheme({
 	},
 	typography: {
 		color: '#A39A9A',
+		caption: {
+			color: '#A39A9A',
+		},
 	},
 });
