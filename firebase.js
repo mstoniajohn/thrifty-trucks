@@ -8,12 +8,12 @@ import { getStorage } from 'firebase/storage';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-	apiKey: 'AIzaSyCp9ggHHSKc0rzqM2PMBXtZHjvNlPT0fsU',
-	authDomain: 'thrifty-trucks.firebaseapp.com',
-	projectId: 'thrifty-trucks',
-	storageBucket: 'thrifty-trucks.appspot.com',
-	messagingSenderId: '218071105757',
-	appId: '1:218071105757:web:72d50cca5ff419ecfe9b34',
+	apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+	authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+	projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+	storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+	messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGE_SENDER_ID,
+	appId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGE_APP_ID,
 };
 
 // Initialize Firebase
