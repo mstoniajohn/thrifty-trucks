@@ -136,7 +136,7 @@ const Header = () => {
 									alt="Remy Sharp"
 									src={
 										currentUser
-											? currentUser.photo.replace('http://', '')
+											? currentUser?.photo?.replace('http://', '')
 											: '/blank-profile640.png'
 									}
 								/>
