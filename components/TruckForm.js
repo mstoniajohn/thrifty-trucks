@@ -69,7 +69,7 @@ const TruckForm = () => {
 			email: currentUser ? currentUser.email : 'me',
 			time_end: dayjs(endTime).format('hh:mm:ss'),
 			time_start: dayjs(startTime).format('hh:mm:ss'),
-			user: currentUser ? currentUser.id : 1,
+			user: currentUser?.id,
 		};
 
 		dispatch(newRental(reservation));
@@ -157,7 +157,7 @@ const TruckForm = () => {
 							<Grid item xs={6}>
 								<MobileTimePicker
 									label="Start Time"
-									ampm
+									ampm={false}
 									value={startTime}
 									onChange={(newValue) => {
 										setStartTime(newValue);
@@ -169,7 +169,7 @@ const TruckForm = () => {
 							<Grid item xs={6}>
 								<MobileTimePicker
 									label="End Time"
-									ampm
+									ampm={false}
 									value={endTime}
 									minTime={startTime}
 									onChange={(newValue) => {
@@ -177,7 +177,7 @@ const TruckForm = () => {
 									}}
 									views={['hours']}
 									renderInput={(params) => <TextField {...params} />}
-									disabled={startTime === null}
+									disabled={startTime === dayjs().format('H')}
 								/>
 							</Grid>
 						</Grid>

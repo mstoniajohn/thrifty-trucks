@@ -8,6 +8,7 @@ import {
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { auth } from '../../firebase';
 import { API_URL } from '@config/index';
+import axios from 'axios';
 
 const provider = new GoogleAuthProvider();
 // provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
@@ -29,17 +30,13 @@ export const signInUserWithGoogle = createAsyncThunk(
 	async () => {
 		// catch errors if they occur during login
 		try {
-			// const response = await signInWithRedirect(auth, provider);
-			// const results = await getRedirectResult(auth);
-			// const credential = GoogleAuthProvider.credentialFromResult(results);
-			// const user = results.user;
 			const response = await signInWithPopup(auth, provider);
-			// const cred = GoogleAuthProvider.credentialFromResult(response);
+			const cred = GoogleAuthProvider.credentialFromResult(response);
 			const user = response.user;
 			// add user to BE??
 
-			const res = await fetch(`${API_URL}/api/v1/customers`);
-			const cust = await res.json();
+			const res = await axios.get(`${API_URL}/api/v1/customers`);
+			const cust = await res.data;
 			const cust_id = cust.filter((u) => u.email === user?.email);
 			const userObject = {
 				id: '',
@@ -63,17 +60,13 @@ export const signInUserWithGoogle = createAsyncThunk(
 				const cust = await res.json();
 				userObject['id'] = cust.id;
 			} else {
-				userObject['id'] = cust_id.id;
+				userObject['id'] = cust_id[0].id;
 			}
 
 			return userObject;
 		} catch (error) {
 			const errorCode = error.code;
 			const errorMessage = error.message;
-			// The email of the user's account used.
-			// const email = error.customData?.email;
-			// // The AuthCredential type that was used.
-			// const credential = GoogleAuthProvider.credentialFromError(error);
 
 			return { errorMessage };
 		}

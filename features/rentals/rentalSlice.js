@@ -22,17 +22,14 @@ export const newRental = createAsyncThunk(
 		// catch errors if they occur during login
 
 		try {
-			const res = await fetch(`${API_URL}/api/v1/reservation`, {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify(reservation),
-			});
-			const data = await res.json();
+			const res = await axios.post(
+				`${API_URL}/api/v1/reservation`,
+				reservation
+			);
+			const data = await res.data;
 			return data;
 		} catch (error) {
-			return { error: error.message };
+			console.log(error);
 		}
 	}
 );
@@ -49,19 +46,17 @@ export const updateRental = createAsyncThunk(
 			const data = await res.data;
 			return data;
 		} catch (error) {
-			return { error: error.message };
+			console.log(error);
 		}
 	}
 );
 export const deleteRental = createAsyncThunk('rentals/delete', async (id) => {
-	// catch errors if they occur during login
-
 	try {
 		const res = await axios.delete(`${API_URL}/api/v1/reservation/${id}`);
 		const data = await res.data;
 		return data;
 	} catch (error) {
-		return { error: error.message };
+		console.log(error);
 	}
 });
 
@@ -70,26 +65,17 @@ export const fetchUsersRentals = createAsyncThunk(
 	async (email) => {
 		// catch errors if they occur during login
 		try {
-			const res = await fetch(
+			const res = await axios.get(
 				`${API_URL}/api/v1/reservation?user__email=${email}`
 			);
-			const userRentals = res.json();
+			const userRentals = await res.data;
 
 			return userRentals;
 		} catch (error) {
 			console.log(error);
-			return { error: error.message };
 		}
 	}
 );
-
-/*
-{
-	date: '',
-'truck': ',
-slots:'start-end'
-}
-*/
 
 // sign out user and update BE?
 export const rentalSlice = createSlice({
@@ -121,6 +107,7 @@ export const rentalSlice = createSlice({
 		[fetchUsersRentals.rejected]: (state, action) => {
 			state.isError = true;
 			state.message = action.payload;
+			state.userRentals = null;
 		},
 		[updateRental.pending]: (state, action) => {
 			state.isLoading = true;
@@ -135,6 +122,17 @@ export const rentalSlice = createSlice({
 			state.message = action.payload;
 			state.currentRental = null;
 		},
+		// [deleteRental.pending]: (state, action) => {
+		// 	state.isLoading = true;
+		// },
+		// [deleteRental.fulfilled]: (state, action) => {
+		// 	state.isLoading = false;
+		// 	state.isSuccess = true;
+		// },
+		// [deleteRental.rejected]: (state, action) => {
+		// 	state.isError = true;
+		// 	state.message = action.payload;
+		// },
 	},
 });
 

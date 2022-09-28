@@ -78,6 +78,7 @@ export default function UpdateForm({
 		};
 
 		dispatch(updateRental(id, reservation));
+		dispatch(fetchUsersRentals(currentUser?.email));
 		setOpen(false);
 	};
 
@@ -130,7 +131,7 @@ export default function UpdateForm({
 									<Grid item xs={6}>
 										<MobileTimePicker
 											label="Start Time"
-											ampm
+											ampm={false}
 											value={startTime}
 											onChange={(newValue) => {
 												setStartTime(newValue);
@@ -142,7 +143,7 @@ export default function UpdateForm({
 									<Grid item xs={6}>
 										<MobileTimePicker
 											label="End Time"
-											ampm
+											ampm={false}
 											value={endTime}
 											onChange={(newValue) => {
 												setEndTime(newValue);
