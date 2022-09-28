@@ -28,6 +28,12 @@ import {
 	updateRental,
 } from '@features/rentals/rentalSlice';
 
+import Slide from '@mui/material/Slide';
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+	return <Slide direction="up" ref={ref} {...props} />;
+});
+
 export default function UpdateForm({
 	id,
 	rate,
@@ -46,7 +52,16 @@ export default function UpdateForm({
 	const [endTime, setEndTime] = React.useState(dayjs().hour(end_time));
 
 	const [open, setOpen] = React.useState(false);
-	console.log(time_start, time_end, start_time, end_time);
+	const [openConfirm, setOpenConfirm] = React.useState(false);
+
+	const handleClickOpenConfirm = () => {
+		setOpenConfirm(true);
+	};
+
+	const handleCloseConfirm = () => {
+		setOpenConfirm(false);
+	};
+
 	const handleClickOpen = () => {
 		setOpen(true);
 	};
@@ -60,6 +75,7 @@ export default function UpdateForm({
 	const handleDelete = () => {
 		dispatch(deleteRental(id));
 		dispatch(fetchUsersRentals(currentUser.email));
+		handleCloseConfirm();
 	};
 	const onSubmit = (e) => {
 		e.preventDefault();
@@ -87,9 +103,27 @@ export default function UpdateForm({
 			<Button sx={{ mr: 1 }} variant="outlined" onClick={handleClickOpen}>
 				edit
 			</Button>
-			<Button color="error" variant="outlined" onClick={handleDelete}>
+			<Button color="error" variant="outlined" onClick={handleClickOpenConfirm}>
 				delete
 			</Button>
+			<Dialog
+				open={openConfirm}
+				TransitionComponent={Transition}
+				keepMounted
+				onClose={handleCloseConfirm}
+				aria-describedby="alert-dialog-slide-description"
+			>
+				<DialogTitle>{"Use Google's location service?"}</DialogTitle>
+				<DialogContent>
+					<DialogContentText id="alert-dialog-slide-description">
+						Are you sure you want to cancel this booking?
+					</DialogContentText>
+				</DialogContent>
+				<DialogActions>
+					<Button onClick={handleDelete}>Yes</Button>
+					<Button onClick={handleCloseConfirm}>No</Button>
+				</DialogActions>
+			</Dialog>
 			<Dialog open={open} onClose={handleClose}>
 				<DialogTitle>Update </DialogTitle>
 				<DialogContent>
