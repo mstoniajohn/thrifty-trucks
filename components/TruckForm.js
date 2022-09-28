@@ -184,7 +184,7 @@ const TruckForm = () => {
 					</LocalizationProvider>
 				</FormControl>
 
-				<Button type="submit">Submit</Button>
+				<Button type="submit">Book</Button>
 			</Box>
 			{/* <Typography>
 				Current Rate:{' '}

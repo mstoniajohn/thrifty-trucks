@@ -12,13 +12,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { fetchUsersRentals } from '@features/rentals/rentalSlice';
 import { useRouter } from 'next/router';
-import moment from 'moment';
 import { getTruckImage, getTruckSize } from 'utils/helpers';
 import dayjs from 'dayjs';
+import UpdateForm from '@components/UpdateForm';
 
 const label = { inputProps: { 'aria-label': 'Switch demo' } };
 export default function Home() {
-	// list truck sizes with prices per hour
 	const { currentUser } = useSelector((state) => state.user);
 	const { userRentals, currentRental } = useSelector((state) => state.rental);
 
@@ -39,6 +38,12 @@ export default function Home() {
 					<Typography variant="h5" align="center">
 						Book a Truck
 					</Typography>
+					{/* 
+          add prices to name of trucks per hour
+          filter trucks by size,
+          change or delete reservation
+
+           */}
 					<Box>
 						<TruckForm />
 					</Box>
@@ -51,7 +56,16 @@ export default function Home() {
 							: 'Upcoming Truck Rentals'}
 					</Typography>
 					{userRentals?.map(
-						({ id, date, truck, rate, time_end, time_start }) => (
+						({
+							id,
+							date,
+							truck,
+							rate,
+							time_end,
+							time_start,
+							start_time,
+							end_time,
+						}) => (
 							<Box key={id}>
 								<Card sx={{ display: 'flex', mb: 1 }}>
 									<Box sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -88,7 +102,18 @@ export default function Home() {
 												pl: 1,
 												pb: 1,
 											}}
-										></Box>
+										>
+											<UpdateForm
+												id={id}
+												date={date}
+												rate={rate}
+												time_end={time_end}
+												time_start={time_start}
+												truck={truck}
+												start_time={start_time}
+												end_time={end_time}
+											/>
+										</Box>
 									</Box>
 									<CardMedia
 										component="img"
