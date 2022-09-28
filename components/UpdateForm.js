@@ -84,7 +84,7 @@ export default function UpdateForm({
 
 	return (
 		<div>
-			<Button variant="outlined" onClick={handleClickOpen}>
+			<Button sx={{ mr: 1 }} variant="outlined" onClick={handleClickOpen}>
 				edit
 			</Button>
 			<Button color="error" variant="outlined" onClick={handleDelete}>

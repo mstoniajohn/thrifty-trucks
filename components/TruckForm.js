@@ -181,7 +181,13 @@ const TruckForm = () => {
 					</LocalizationProvider>
 				</FormControl>
 
-				<Button type="submit">Book</Button>
+				<Button
+					variant="contained"
+					type="submit"
+					sx={{ mt: 1, color: 'white' }}
+				>
+					Book
+				</Button>
 			</Box>
 		</Container>
 	);
