@@ -11,21 +11,18 @@ import {
 	InputLabel,
 	MenuItem,
 	Select,
-	Typography,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import TextField from '@mui/material/TextField';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { TimePicker } from '@mui/x-date-pickers/TimePicker';
-import moment from 'moment';
-import dayjs from 'dayjs';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { newRental } from '../features/rentals/rentalSlice';
-import { API_URL } from '@config/index';
 import { calculateRentalPrice, getTruckSize } from 'utils/helpers';
 import { MobileTimePicker } from '@mui/x-date-pickers';
+import dayjs from 'dayjs';
 
 const TruckForm = () => {
 	const { currentUser } = useSelector((state) => state.user);
@@ -58,8 +55,6 @@ const TruckForm = () => {
 
 	const onSubmit = (e) => {
 		e.preventDefault();
-		// setTotalHours((endTime - startTime) % 24);
-		// truck_size: getTruckSize[truck],
 
 		const reservation = {
 			date: dayjs(date).format('YYYY-MM-DD'),
@@ -179,7 +174,7 @@ const TruckForm = () => {
 									}}
 									views={['hours']}
 									renderInput={(params) => <TextField {...params} />}
-									disabled={startTime === dayjs().hour(dayjs().format('H'))}
+									// disabled={startTime === dayjs().hour(dayjs().format('H'))}
 								/>
 							</Grid>
 						</Grid>
@@ -188,10 +183,6 @@ const TruckForm = () => {
 
 				<Button type="submit">Book</Button>
 			</Box>
-			{/* <Typography>
-				Current Rate:{' '}
-				{truck !== null ? calculateRate : 'Select truck size or time'}
-			</Typography> */}
 		</Container>
 	);
 };
