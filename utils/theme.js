@@ -7,5 +7,11 @@ export const theme = createTheme({
 		primary: {
 			main: '#fcba03',
 		},
+		text: {
+			primary: '#A39A9A',
+		},
+	},
+	typography: {
+		color: '#A39A9A',
 	},
 });
