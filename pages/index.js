@@ -20,7 +20,6 @@ const label = { inputProps: { 'aria-label': 'Switch demo' } };
 export default function Home() {
 	const { currentUser } = useSelector((state) => state.user);
 	const { userRentals, currentRental } = useSelector((state) => state.rental);
-	console.log(userRentals);
 
 	const dispatch = useDispatch();
 	const router = useRouter();

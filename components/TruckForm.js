@@ -39,15 +39,6 @@ const TruckForm = () => {
 	const [openSuccess, setOpenSuccess] = React.useState(false);
 	const [openError, setOpenError] = React.useState(false);
 
-	console.log(
-		dayjs().format('H'),
-		endTime,
-		startTime,
-		dayjs(startTime).format('H'),
-		dayjs(endTime).format('H'),
-		currentRental?.error
-	);
-
 	const handleChange = (event) => {
 		setTruck(event.target.value);
 	};
