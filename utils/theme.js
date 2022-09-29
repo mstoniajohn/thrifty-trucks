@@ -36,6 +36,13 @@ export const theme = createTheme({
 			styleOverrides: {
 				root: {
 					backgroundColor: '#eee',
+					'& .MuiFormLabel-root': {
+						color: 'primary.main',
+					},
+					'& .MuiFormLabel-root.Mui-focused': {
+						color: 'primary.main',
+					},
+
 					'& .MuiOutlinedInput-notchedOutline': {
 						border: 'none',
 					},
