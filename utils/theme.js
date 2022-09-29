@@ -19,5 +19,17 @@ export const theme = createTheme({
 		h5: {
 			color: '#A39A9A',
 		},
+		body1: {},
+	},
+	components: {
+		MuiButton: {
+			styleOverrides: {
+				root: {
+					'&.Mui-disabled': {
+						backgroundColor: '#ffef62',
+					},
+				},
+			},
+		},
 	},
 });

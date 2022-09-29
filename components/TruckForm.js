@@ -131,7 +131,7 @@ const TruckForm = () => {
 						value={truck}
 						label="Truck"
 						onChange={handleChange}
-						sx={{ mb: 1 }}
+						sx={{ mb: 1, input: { color: '#A39A9A' } }}
 					>
 						<MenuItem value={1}>Extra Small</MenuItem>
 						<MenuItem value={2}>Small</MenuItem>
@@ -185,7 +185,10 @@ const TruckForm = () => {
 					disabled={endTime === ''}
 					variant="contained"
 					type="submit"
-					sx={{ mt: 1, color: 'white' }}
+					sx={{
+						mt: 1,
+						color: 'white',
+					}}
 				>
 					Book
 				</Button>
