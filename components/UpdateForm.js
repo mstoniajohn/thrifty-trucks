@@ -156,6 +156,11 @@ export default function UpdateForm({
 									renderInput={(params) => (
 										<TextField {...params} sx={{ mb: 1 }} />
 									)}
+									sx={{
+										'&label': {
+											color: 'primary.main',
+										},
+									}}
 								/>
 								<Grid container spacing={1}>
 									<Grid item xs={6}>
@@ -168,6 +173,11 @@ export default function UpdateForm({
 											}}
 											views={['hours']}
 											renderInput={(params) => <TextField {...params} />}
+											sx={{
+												'&label': {
+													color: 'primary.main',
+												},
+											}}
 										/>
 									</Grid>
 									<Grid item xs={6}>
@@ -180,6 +190,11 @@ export default function UpdateForm({
 											}}
 											views={['hours']}
 											renderInput={(params) => <TextField {...params} />}
+											sx={{
+												'&label': {
+													color: 'primary.main',
+												},
+											}}
 										/>
 									</Grid>
 								</Grid>

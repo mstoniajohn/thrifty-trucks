@@ -149,6 +149,11 @@ const TruckForm = () => {
 								setDate(newValue);
 							}}
 							renderInput={(params) => <TextField {...params} sx={{ mb: 1 }} />}
+							sx={{
+								'&label': {
+									color: 'primary.main',
+								},
+							}}
 						/>
 						<Grid container spacing={1}>
 							<Grid item xs={6}>
@@ -158,6 +163,11 @@ const TruckForm = () => {
 									value={startTime}
 									onChange={(newValue) => {
 										setStartTime(newValue);
+									}}
+									sx={{
+										'&label': {
+											color: 'primary.main',
+										},
 									}}
 									views={['hours']}
 									renderInput={(params) => <TextField {...params} />}
@@ -171,6 +181,11 @@ const TruckForm = () => {
 									minTime={startTime}
 									onChange={(newValue) => {
 										setEndTime(newValue);
+									}}
+									sx={{
+										'&label': {
+											color: 'primary.main',
+										},
 									}}
 									views={['hours']}
 									renderInput={(params) => <TextField {...params} />}
