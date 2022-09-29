@@ -87,14 +87,13 @@ export const rentalSlice = createSlice({
 	extraReducers: {
 		[newRental.pending]: (state, action) => {
 			state.isLoading = true;
+			state.message = '';
+			state.currentRental = null;
 		},
 		[newRental.fulfilled]: (state, action) => {
 			state.isLoading = false;
 			state.isSuccess = true;
-			state.currentRental =
-				action.payload === 'Request failed with status code 500'
-					? null
-					: action.payload;
+			state.currentRental = action.payload;
 			state.message =
 				action.payload === 'Request failed with status code 500'
 					? action.payload
