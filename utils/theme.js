@@ -31,5 +31,24 @@ export const theme = createTheme({
 				},
 			},
 		},
+
+		MuiOutlinedInput: {
+			styleOverrides: {
+				root: {
+					backgroundColor: '#eee',
+					'& .MuiOutlinedInput-notchedOutline': {
+						border: 'none',
+					},
+					'&.Mui-focused': {
+						'& .MuiOutlinedInput-notchedOutline': {
+							border: 'none',
+						},
+					},
+					'& .MuiOutlinedInput-input': {
+						color: '#A39A9A',
+					},
+				},
+			},
+		},
 	},
 });
