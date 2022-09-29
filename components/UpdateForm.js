@@ -74,8 +74,9 @@ export default function UpdateForm({
 	};
 	const handleDelete = () => {
 		dispatch(deleteRental(id));
-		dispatch(fetchUsersRentals(currentUser.email));
 		handleCloseConfirm();
+
+		dispatch(fetchUsersRentals(currentUser.email));
 	};
 	const onSubmit = (e) => {
 		e.preventDefault();
@@ -94,8 +95,9 @@ export default function UpdateForm({
 		};
 
 		dispatch(updateRental(id, reservation));
-		dispatch(fetchUsersRentals(currentUser?.email));
 		setOpen(false);
+
+		dispatch(fetchUsersRentals(currentUser?.email));
 	};
 
 	return (
