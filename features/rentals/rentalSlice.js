@@ -12,7 +12,7 @@ const initialState = {
 	isError: false,
 	isSuccess: false,
 	isLoading: false,
-	message: null,
+	message: '',
 };
 
 // Sign in user and store in redux to send to backend
@@ -30,6 +30,8 @@ export const newRental = createAsyncThunk(
 			return data;
 		} catch (error) {
 			console.log(error);
+
+			return error.message;
 		}
 	}
 );
@@ -89,12 +91,20 @@ export const rentalSlice = createSlice({
 		[newRental.fulfilled]: (state, action) => {
 			state.isLoading = false;
 			state.isSuccess = true;
-			state.currentRental = action.payload;
+			state.currentRental =
+				action.payload === 'Request failed with status code 500'
+					? null
+					: action.payload;
+			state.message =
+				action.payload === 'Request failed with status code 500'
+					? action.payload
+					: '';
 		},
 		[newRental.rejected]: (state, action) => {
 			state.isError = true;
 			state.message = action.payload;
 			state.currentRental = null;
+			state.isSuccess = false;
 		},
 		[fetchUsersRentals.pending]: (state, action) => {
 			state.isLoading = true;
@@ -107,6 +117,8 @@ export const rentalSlice = createSlice({
 		[fetchUsersRentals.rejected]: (state, action) => {
 			state.isError = true;
 			state.message = action.payload;
+			state.isSuccess = false;
+
 			state.userRentals = null;
 		},
 		[updateRental.pending]: (state, action) => {

@@ -26,7 +26,7 @@ import dayjs from 'dayjs';
 
 const TruckForm = () => {
 	const { currentUser } = useSelector((state) => state.user);
-	const { currentRental } = useSelector((state) => state.rental);
+	const { currentRental, message } = useSelector((state) => state.rental);
 
 	const dispatch = useDispatch();
 
@@ -61,10 +61,13 @@ const TruckForm = () => {
 		};
 
 		dispatch(newRental(reservation));
-		if (!currentRental?.error) {
+
+		if (currentRental !== null && typeof currentRental !== 'string') {
 			setOpenSuccess(true);
 		}
-		if (currentRental?.error) {
+		if (message.length > 0) {
+			console.log(message);
+
 			setOpenError(true);
 		}
 	};
