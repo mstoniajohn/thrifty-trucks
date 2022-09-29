@@ -64,8 +64,7 @@ const TruckForm = () => {
 
 		if (currentRental !== null && typeof currentRental !== 'string') {
 			setOpenSuccess(true);
-		}
-		if (message.length > 0) {
+		} else {
 			console.log(message);
 
 			setOpenError(true);
@@ -75,28 +74,27 @@ const TruckForm = () => {
 	return (
 		<Container>
 			<Box sx={{ maxWidth: 410 }} component="form" onSubmit={onSubmit}>
-				{currentRental?.error && (
-					<Collapse in={openError}>
-						<Alert
-							severity="error"
-							sx={{ m: 2 }}
-							action={
-								<IconButton
-									aria-label="close"
-									color="inherit"
-									size="small"
-									onClick={() => {
-										setOpenError(false);
-									}}
-								>
-									<CloseIcon fontSize="inherit" />
-								</IconButton>
-							}
-						>
-							No availabiliy. Choose a different Truck, Time or Date
-						</Alert>
-					</Collapse>
-				)}
+				<Collapse in={openError}>
+					<Alert
+						severity="error"
+						sx={{ m: 2 }}
+						action={
+							<IconButton
+								aria-label="close"
+								color="inherit"
+								size="small"
+								onClick={() => {
+									setOpenError(false);
+								}}
+							>
+								<CloseIcon fontSize="inherit" />
+							</IconButton>
+						}
+					>
+						No availabiliy. Choose a different Truck, Time or Date
+					</Alert>
+				</Collapse>
+
 				<Collapse in={openSuccess}>
 					<Alert
 						severity="success"
