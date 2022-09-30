@@ -79,18 +79,6 @@ export default function UpdateForm({
 		dispatch(fetchUsersRentals(currentUser.email));
 	};
 
-	/*
-
-	{{userProfileIds.data}} -> ["6a33b8b1-9f1e-4c1b-a21a-6cbc9eeb8d80"]
-	{{stores.data.store}} -> "5236246c-c329-4fe3-aacc-eb5f6f3a3e94"
-	{{userType.data === "TL" && stores.data.store_group}} -> "eb7f07a2-5912-42d3-b2cc-77a4493e8498"
-	{{storeOnboardedPercent.data}} -> [{store:"Onaroll",
-brand:"onaroll",
-onboarded:"36%",
-time_left_bonus:""}]
-
-	
-	*/
 	const onSubmit = (e) => {
 		e.preventDefault();
 

@@ -39,7 +39,6 @@ export const updateRental = createAsyncThunk(
 	'rentals/update',
 	async (reservation) => {
 		// catch errors if they occur during login
-		console.log(reservation);
 
 		try {
 			const res = await axios.put(
