@@ -78,10 +78,24 @@ export default function UpdateForm({
 
 		dispatch(fetchUsersRentals(currentUser.email));
 	};
+
+	/*
+
+	{{userProfileIds.data}} -> ["6a33b8b1-9f1e-4c1b-a21a-6cbc9eeb8d80"]
+	{{stores.data.store}} -> "5236246c-c329-4fe3-aacc-eb5f6f3a3e94"
+	{{userType.data === "TL" && stores.data.store_group}} -> "eb7f07a2-5912-42d3-b2cc-77a4493e8498"
+	{{storeOnboardedPercent.data}} -> [{store:"Onaroll",
+brand:"onaroll",
+onboarded:"36%",
+time_left_bonus:""}]
+
+	
+	*/
 	const onSubmit = (e) => {
 		e.preventDefault();
 
 		const reservation = {
+			id: id,
 			date: dayjs(oldDate).format('YYYY-MM-DD'),
 			start_time: dayjs(startTime).format('H'),
 			end_time: dayjs(endTime).format('H'),
@@ -94,7 +108,7 @@ export default function UpdateForm({
 			user: currentUser.id,
 		};
 
-		dispatch(updateRental(id, reservation));
+		dispatch(updateRental(reservation));
 		setOpen(false);
 
 		dispatch(fetchUsersRentals(currentUser?.email));

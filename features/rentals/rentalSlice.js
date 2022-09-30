@@ -37,12 +37,13 @@ export const newRental = createAsyncThunk(
 );
 export const updateRental = createAsyncThunk(
 	'rentals/update',
-	async (id, reservation) => {
+	async (reservation) => {
 		// catch errors if they occur during login
+		console.log(reservation);
 
 		try {
 			const res = await axios.put(
-				`${API_URL}/api/v1/reservation/${id}`,
+				`${API_URL}/api/v1/reservation/${reservation?.id}`,
 				reservation
 			);
 			const data = await res.data;
