@@ -99,7 +99,7 @@ time_left_bonus:""}]
 			date: dayjs(oldDate).format('YYYY-MM-DD'),
 			start_time: dayjs(startTime).format('H'),
 			end_time: dayjs(endTime).format('H'),
-			newTruck,
+			truck: newTruck,
 			hours: null,
 			rate: null,
 			email: currentUser ? currentUser.email : 'me',
